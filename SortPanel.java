@@ -19,16 +19,15 @@ public class SortPanel extends JPanel {
 	int[] sortOneArray = new int[30];
 	int[] sortTwoArray = new int[30];
 
-
 	public SortPanel(){
 		setPreferredSize(new Dimension(800,500));
 		setLayout(new FlowLayout(FlowLayout.LEFT));
-		setBackground(Color.black);
-		buildArrayButton = new JButton("Build New Random Arrays");
+		buildArrayButton = new JButton("Build New Arrays");
 		sortArrayButton = new JButton("Sort The Arrays");
 		buildArrayButton.addActionListener(new ButtonListener());
 		add(buildArrayButton);
 		add(sortArrayButton);
+		buildArrays();
 	}
 
 	public void paintComponent(Graphics g){
@@ -41,7 +40,6 @@ public class SortPanel extends JPanel {
 		g.fillRect(0,0,getWidth(), getHeight());
 		g.setColor(Color.GREEN);
 
-
 		for(int i = 0; i < 30; i++){
 			g.fillRect(leftIndent + spacer + 20*i ,190 - sortOneArray[i], 10, sortOneArray[i]);
 		}
@@ -51,24 +49,18 @@ public class SortPanel extends JPanel {
 		}
 
 	}
-
 	public void buildArrays(){
 		for(int x = 0; x < 30; x++){
 			rInt = (int)(Math.random()*7) + 1;
 			sortOneArray[x] = rInt*10;
 			sortTwoArray[x] = rInt*10;
-			repaint();
 		}
 	}
 
-
-
-	   private class ButtonListener implements ActionListener
-	   {
-	      public void actionPerformed (ActionEvent event)
-	      {
+	   private class ButtonListener implements ActionListener{
+	      public void actionPerformed (ActionEvent event){
 	    	buildArrays();
+	    	repaint();
 	      }
 	   }
-
 }
