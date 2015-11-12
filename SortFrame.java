@@ -1,7 +1,7 @@
 import javax.swing.JFrame;
 
 public class SortFrame extends JFrame {
-	
+
 	public SortFrame(){
 		super("Two Sorts");
 		setVisible(true);
@@ -9,12 +9,9 @@ public class SortFrame extends JFrame {
 		add(new SortPanel());
 		pack();
 	}
-	
+
 	public static void main(String[] args) {
-		
 		new SortFrame();
-
 	}
-
 }
 
