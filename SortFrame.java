@@ -14,4 +14,3 @@ public class SortFrame extends JFrame {
 		new SortFrame();
 	}
 }
-
