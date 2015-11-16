@@ -1,7 +1,7 @@
 import javax.swing.JFrame;
 
 public class SortFrame extends JFrame {
-
+// git update
 	public SortFrame(){
 		super("Two Sorts");
 		setVisible(true);
