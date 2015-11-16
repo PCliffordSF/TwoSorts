@@ -1,3 +1,5 @@
+// git update to practice
+
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,7 +29,7 @@ public class SortPanel extends JPanel {
 
 	private boolean changeSelectionColor;
 	private boolean changeInsertionColor;
-	
+
 	//////////////////////// Constructor /////////////////////////////////////
 
 	public SortPanel(){
@@ -40,7 +42,7 @@ public class SortPanel extends JPanel {
 		insertionSortIndex = 1;
 		changeSelectionColor = false;
 	}
-	
+
 	///////////////////////////// Graphics object /////////////////////////////
 
 	public void paintComponent(Graphics g){
@@ -61,13 +63,13 @@ public class SortPanel extends JPanel {
        			g.setColor(Color.GREEN);
        		}
        		g.fillRect(leftIndent + spacer + 20*i ,190 - sortOneArray[i], 10, sortOneArray[i]);
-	      	
- 
+
+
        		for(int j = 0; j < 30; j++){
        			if(j <= (whiteLowerBound)){
        				g.setColor(Color.MAGENTA);
        			}
-       			
+
        			else if((j > whiteLowerBound & j <= whiteUpperBound +1) | j == insertionSortKey){
            			g.setColor(Color.WHITE);
            		}
@@ -75,22 +77,22 @@ public class SortPanel extends JPanel {
            			g.setColor(Color.MAGENTA);
            		}
        			g.fillRect(leftIndent + spacer + 20*j ,200 , 10, sortTwoArray[j]);
-       		} 
+       		}
        	}
-		
+
 	}
-	
+
 	//////////////// Selection Sort method /////////////////////////////////////
 	public void selectionSort (Comparable[] sortOneArray){
         int min;
         Integer tempArray;
         min = index;
-        
+
         for (int scan = index + 1; scan < sortOneArray.length; scan++){
             if (sortOneArray[scan].compareTo(sortOneArray[min]) < 0){
             min = scan;
             }
-        
+
         }
             // Swap the values
             tempArray = (Integer) sortOneArray[min];
@@ -102,17 +104,17 @@ public class SortPanel extends JPanel {
             changeSelectionColor = true;
             if(min == index -1){
             changeSelectionColor = false;
-            }      
+            }
 	}
-	
+
 	///////////////// Insertion Sort method /////////////////////////////////////
-    
+
     public static void insertionSort (Comparable[] sortTwoArray)
     {
 
     Comparable key = sortTwoArray[insertionSortIndex];
     int position = insertionSortIndex;
-    
+
 
     //  Shift larger values to the right
     while (position > 0 && key.compareTo(sortTwoArray[position-1]) < 0){
@@ -131,7 +133,7 @@ public class SortPanel extends JPanel {
     }
 
 
-       	 
+
 	public void buildArrays(){
 		for(int x = 0; x < 30; x++){
 			rInt = (int)(Math.random()*7) + 1;
