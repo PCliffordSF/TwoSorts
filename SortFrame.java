@@ -1,16 +1,19 @@
 import javax.swing.JFrame;
 
 public class SortFrame extends JFrame {
-// git update to practice
-	public SortFrame(){
+	
+	SortPanel sortPanel;
+
+	public SortFrame(SortPanel sortPanel){
 		super("Two Sorts");
+		this.sortPanel = sortPanel;
 		setVisible(true);
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		add(new SortPanel());
+		add(sortPanel);
 		pack();
 	}
 
 	public static void main(String[] args) {
-		new SortFrame();
+		new SortFrame(new SortPanel());
 	}
 }
