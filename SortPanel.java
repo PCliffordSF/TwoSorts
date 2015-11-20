@@ -16,23 +16,15 @@ public class SortPanel extends JPanel {
 	int spacer;
 	int leftIndent;
 	int rInt;
-	private static Integer insertionSortIndex;
 	Integer[] sortOneArray = new Integer[30];
 	Integer[] sortTwoArray = new Integer[30];
 	private int index = 0;
-	private int changeIndexColor;
-	private int changeMinColor;
-	private static int whiteUpperBound;
-	private static int whiteLowerBound;
-	private static int insertionSortKey;
-
-	private static boolean changeSelectionColor;
-	private static boolean changeSelectionColorTwo;
+	private static int insertionSortIndex = 1;
 
 	//////////////////////// Constructor /////////////////////////////////////
 
 	public SortPanel(){
-		setPreferredSize(new Dimension(800,500));
+		setPreferredSize(new Dimension(1000,500));
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		sortArrayButton = new JButton("Sort The Arrays");
 		buildArraysButton = new JButton("Build The Arrays");
@@ -40,9 +32,6 @@ public class SortPanel extends JPanel {
 		buildArraysButton.addActionListener(new ButtonListener());
 		add(sortArrayButton);
 		add(buildArraysButton);
-		insertionSortIndex = 1;
-		changeSelectionColor = false;
-		changeSelectionColorTwo = false;
 		sortOneArray = generateArray(30);
 		sortTwoArray = generateArray(30);
 
@@ -54,48 +43,55 @@ public class SortPanel extends JPanel {
 		super.paintComponent (g);
 
 		spacer = 10;
-		leftIndent = 100;
+		leftIndent = 300;
 
 		g.setColor(Color.BLACK);
 		g.fillRect(0,0,getWidth(), getHeight());
 
+////////////////////////////////////// Print the labels, sort count and sort confirmation //////////////////
+
        	if(isSorted(sortOneArray) == true){
-       		g.setColor(Color.YELLOW);
-       		g.drawString("Array one is sorted!!!!", 10, 50);
+       		g.setColor(Color.GREEN);
+       		g.drawString("Selection Sort array is sorted after " + index + " iterations", 10, 150);
        	}
-       	if(isSorted(sortTwoArray) == true){
-       		g.setColor(Color.YELLOW);
-       		g.drawString("Array two is sorted!!!!", 10, 80);
+       	else{
+       		g.setColor(Color.GREEN);
+       		g.drawString("Selection Sort iteration number " + index, 10, 150);
        	}
 
+       	if(isSorted(sortTwoArray) == true){
+       		g.setColor(Color.MAGENTA);
+       		g.drawString("Insertion Sort array is sorted after " + (insertionSortIndex -1) + " iterations", 10, 250);
+       	}
+       	else{
+       		g.setColor(Color.MAGENTA);
+       		g.drawString("Insertion Sort iteration number " + (insertionSortIndex -1), 10, 250);
+       	}
+
+  ///////////////////////  Draw the Selecton sort bars ////////////////////////////////////////////////////
+
        	for(int i = 0; i < 30; i++){
-       		if((i == changeIndexColor | i == changeMinColor) & changeSelectionColor == true){
-       			g.setColor(Color.WHITE);
+       		if(isSorted(sortOneArray) == true){
+       			g.setColor(Color.LIGHT_GRAY);
        		}
        		else{
        			g.setColor(Color.GREEN);
        		}
        		g.fillRect(leftIndent + spacer + 20*i ,190 - sortOneArray[i], 10, sortOneArray[i]);
+       	}
 
+   ////////////////////// Draw the insertion sort bars ////////////////////////////////////////////////////
 
        		for(int j = 0; j < 30; j++){
-       			if(j < (whiteLowerBound)){
-       				g.setColor(Color.MAGENTA);
+       			if(isSorted(sortTwoArray) == true){
+       				g.setColor(Color.LIGHT_GRAY);
        			}
-
-       			else if(((j >= whiteLowerBound & j <= whiteUpperBound +1) | j == insertionSortKey) & changeSelectionColorTwo == true){
-           			g.setColor(Color.WHITE);
-           		}
-           		else{
-           			g.setColor(Color.MAGENTA);
-           		}
+       			else{
+       			g.setColor(Color.MAGENTA);
+       			}
        			g.fillRect(leftIndent + spacer + 20*j ,200 , 10, sortTwoArray[j]);
        		}
        	}
-
-
-
-	}
 
 	//////////////// Selection Sort method /////////////////////////////////////
 	public void selectionSort (Comparable[] sortOneArray){
@@ -115,47 +111,26 @@ public class SortPanel extends JPanel {
             sortOneArray[min] = sortOneArray[index];
             sortOneArray[index] = tempArray;
             index = index + 1;
-            changeIndexColor = index;
-            changeMinColor = min;
-            changeSelectionColor = true;
-             if(min == index -1){
-            changeSelectionColor = false;
-            }
 	}
 
 	///////////////// Insertion Sort method /////////////////////////////////////
 
     public static void insertionSort (Comparable[] sortTwoArray){
 
-    Comparable key = sortTwoArray[insertionSortIndex];
-    int position = insertionSortIndex;
+        Comparable key = sortTwoArray[insertionSortIndex];
+        int position = insertionSortIndex;
 
 
-    //  Shift larger values to the right
-    while (position > 0 && key.compareTo(sortTwoArray[position-1]) < 0){
-    	whiteLowerBound = position - 1;
-    	sortTwoArray[position] = sortTwoArray[position-1];
-    	position--;
+        //  Shift larger values to the right
+        while (position > 0 && key.compareTo(sortTwoArray[position-1]) < 0){
+    	    sortTwoArray[position] = sortTwoArray[position-1];
+    	    position--;
+        }
+        sortTwoArray[position] = key;
+        insertionSortIndex = insertionSortIndex + 1;
     }
 
-    sortTwoArray[position] = key;
-
-    if(position <= 29){
-    changeSelectionColorTwo = true;
-    }
-    else{
-    	changeSelectionColor = false;
-    }
-    //insertionSortKey = (int) key;
-    insertionSortKey = position + whiteUpperBound;
-
-
-    insertionSortIndex = insertionSortIndex + 1;
-    whiteUpperBound = position + whiteLowerBound +1;
-    //System.out.println("whiteUpperBound" + whiteUpperBound);
-    //System.out.println("whiteLowerBound" + whiteLowerBound);
-    //System.out.println("lower + upper" + insertionSortKey);
-    }
+///////////////////   Method to generate random arrays. /////////////////////////////////////////////////
 
     public Integer[] generateArray(int numElements){
 
@@ -163,7 +138,8 @@ public class SortPanel extends JPanel {
         for(int i = 0; i < numElements ; ++i){
             randomInts[i] = i*5 +5;
         }
-        // Do the Knuth shuffle
+        // Using the Fisher–Yates shuffle AKA the Knuth shuffle.
+        // This randomizes the arrays which have been generated.
         for(int i = 0; i < numElements; ++i){
             int randomIndex = (int)Math.floor(Math.random() * (i + 1));
             Integer temp = randomInts[i];
@@ -172,6 +148,8 @@ public class SortPanel extends JPanel {
         }
         return randomInts;
     }
+
+  ////////////////////////// Method to check if arrays are sorted ///////////////////////////////////
 
     public boolean isSorted(Comparable[] arrayToBeChecked){
     	int counter = 0;
@@ -188,6 +166,7 @@ public class SortPanel extends JPanel {
     	}
     }
 
+  /////////////////////// Inner class ////////////////////////////////////////////////////////////////
 
 	   private class ButtonListener implements ActionListener{
 	      public void actionPerformed (ActionEvent event){
@@ -200,11 +179,15 @@ public class SortPanel extends JPanel {
 	    		repaint();
 	    		index = 0;
 	    		insertionSortIndex = 1;
-
 	    	}
+
 	    	else if(buttonClicked == sortArrayButton){
-	    	    selectionSort(sortOneArray);
-	    	    insertionSort(sortTwoArray);
+	    		if(isSorted(sortOneArray) == false){
+	    	        selectionSort(sortOneArray);
+	    		}
+	    		if(isSorted(sortTwoArray) ==  false){
+	    	        insertionSort(sortTwoArray);
+	    	    }
 	    	    repaint();
 	    	}
 	      }
